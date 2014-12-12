@@ -1,6 +1,6 @@
 === WooCommerce Simple Registration ===
 Contributors: Astoundify
-Donate link: http://www.jeroensormani.com/donate/
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=contact@appthemer.com&item_name=Donation+for+Astoundify WP Job Manager Regions
 Tags: woocommerce, woocommerce registration, woocommerce register, woocommerce registration form, woocommerce form
 Requires at least: 3.6
 Tested up to: 4.1
@@ -19,10 +19,6 @@ A simple plugin to add a [wc_register] shortcode to display the registration for
 1. Upload the folder `woocommerce-simple-registration to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Use the shortcode `wc_register` on a self-created page to display the registration form.
-
-== Screenshots ==
-
-1.
 
 == Changelog ==
 
