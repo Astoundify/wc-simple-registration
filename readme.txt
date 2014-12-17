@@ -1,8 +1,8 @@
 === WooCommerce Simple Registration ===
-Contributors: Astoundify
+Contributors: Astoundify, SpencerFinnell
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=contact@appthemer.com&item_name=Donation+for+Astoundify WP Job Manager Regions
 Tags: woocommerce, woocommerce registration, woocommerce register, woocommerce registration form, woocommerce form
-Requires at least: 3.6
+Requires at least: 4.1
 Tested up to: 4.1
 Stable tag: 1.0.0
 License: GPLv3 or later
