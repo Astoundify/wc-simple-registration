@@ -8,17 +8,17 @@ Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A simple plugin to add a [wc_register] shortcode to display the registration form on a separate page.
+A simple plugin to add a [woocommerce_simple_registration] shortcode to display the registration form on a separate page.
 
 == Description ==
 
-A simple plugin to add a [wc_register] shortcode to display the registration form on a separate page.
+A simple plugin to add a [woocommerce_simple_registration] shortcode to display the registration form on a separate page.
 
 == Installation ==
 
 1. Upload the folder `woocommerce-simple-registration to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Use the shortcode `wc_register` on a self-created page to display the registration form.
+3. Use the shortcode `woocommerce_simple_registration` on a self-created page to display the registration form.
 
 == Changelog ==
 
