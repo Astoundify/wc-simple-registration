@@ -4,8 +4,8 @@
  * Plugin URI:		https://astoundify.com/
  * Description:		A simple plugin to add a [wc_register] shortcode to display the registration form on a separate page.
  * Version: 		1.0.0
- * Author: 			Jeroen Sormani
- * Author URI: 		http://www.jeroensormani.com/
+ * Author: 		Jeroen Sormani
+ * Author URI: 		https://astoundify.com/
  * Text Domain: 	woocommerce-simple-registration
  */
 
