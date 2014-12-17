@@ -63,8 +63,8 @@ class WooCommerce_Simple_Registration {
 		// Initialize plugin parts
 		$this->init();
 
-		// wc_registration shortcode
-		add_shortcode( 'wc_register', array( $this, 'registration_template' ) );
+		// woocommerce_simple_registration shortcode
+		add_shortcode( 'woocommerce_simple_registration', array( $this, 'registration_template' ) );
 
 	}
 
