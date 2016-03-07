@@ -1,0 +1,53 @@
+# Copyright (C) 2016 Astoundify
+# This file is distributed under the same license as the WooCommerce Simple Registration package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Simple Registration 1.1.0\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/woocommerce-simple-registration\n"
+"POT-Creation-Date: 2016-03-07 23:56:45+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: grunt-wp-i18n 0.5.4\n"
+
+#: templates/registration-form.php:17 templates/registration-form.php:54
+msgid "Register"
+msgstr ""
+
+#: templates/registration-form.php:26
+msgid "Username"
+msgstr ""
+
+#: templates/registration-form.php:33
+msgid "Email address"
+msgstr ""
+
+#: templates/registration-form.php:40
+msgid "Password"
+msgstr ""
+
+#: templates/registration-form.php:47
+msgid "Anti-spam"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Simple Registration"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://astoundify.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"A simple plugin to add a [woocommerce_simple_registration] shortcode to "
+"display the registration form on a separate page."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Astoundify"
+msgstr ""
