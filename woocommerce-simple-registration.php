@@ -84,15 +84,12 @@ class WooCommerce_Simple_Registration {
 	 * @return object Instance of the class.
 	 */
 	public static function instance() {
-
-		if ( is_null( self::$instance ) ) :
+		if ( is_null( self::$instance ) )  {
 			self::$instance = new self();
-		endif;
+		}
 
 		return self::$instance;
-
 	}
-
 
 	/**
 	 * init.
@@ -102,12 +99,8 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.0.0
 	 */
 	public function init() {
-
-		// Load textdomain
 		$this->load_textdomain();
-
 	}
-
 
 	/**
 	 * Textdomain.
@@ -117,10 +110,7 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.0.0
 	 */
 	public function load_textdomain() {
-
-		// Load textdomain
 		load_plugin_textdomain( 'woocommerce-simple-registration', false, basename( dirname( __FILE__ ) ) . '/languages' );
-
 	}
 
 
