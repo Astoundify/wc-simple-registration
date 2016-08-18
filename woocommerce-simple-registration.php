@@ -70,8 +70,9 @@ class WooCommerce_Simple_Registration {
 		// woocommerce_simple_registration shortcode
 		add_shortcode( 'woocommerce_simple_registration', array( $this, 'registration_template' ) );
 
+		// add a body class on this page
+		add_filter( 'body_class', array( $this, 'body_class' ) );
 	}
-
 
 	/**
 	 * Instance.
@@ -155,6 +156,24 @@ class WooCommerce_Simple_Registration {
 
 	}
 
+	/**
+	* Add body classes for WC Simple Register page.
+	*
+	* @since 1.2.0
+	* @param  array $classes
+	* @return array
+	*/
+	function body_class( $classes ) {
+		$classes = (array) $classes;
+
+		if ( has_shortcode( get_post()->post_content, 'woocommerce_simple_registration' ) ) {
+			$classes[] = 'woocommerce-register';
+			$classes[] = 'woocommerce-account';
+			$classes[] = 'woocommerce-page';
+		}
+
+		return $classes;
+	}
 
 }
 
