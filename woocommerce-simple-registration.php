@@ -197,4 +197,4 @@ if ( ! function_exists( 'WooCommerce_Simple_Registration' ) ) :
 
 endif;
 
-WooCommerce_Simple_Registration();
+add_action( 'plugins_loaded', 'WooCommerce_Simple_Registration' );
