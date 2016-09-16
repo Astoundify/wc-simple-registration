@@ -60,16 +60,8 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-
-		// Check if WooCommerce is active
-		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
-			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-		}
-
-		if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-			if ( ! is_plugin_active_for_network( 'woocommerce/woocommerce.php' ) ) {
-				return;
-			}
+		if ( ! class_exists( 'WooCommerce' ) ) {
+			return;
 		}
 
 		// Initialize plugin parts
@@ -78,8 +70,9 @@ class WooCommerce_Simple_Registration {
 		// woocommerce_simple_registration shortcode
 		add_shortcode( 'woocommerce_simple_registration', array( $this, 'registration_template' ) );
 
+		// add a body class on this page
+		add_filter( 'body_class', array( $this, 'body_class' ) );
 	}
-
 
 	/**
 	 * Instance.
@@ -91,15 +84,12 @@ class WooCommerce_Simple_Registration {
 	 * @return object Instance of the class.
 	 */
 	public static function instance() {
-
-		if ( is_null( self::$instance ) ) :
+		if ( is_null( self::$instance ) )  {
 			self::$instance = new self();
-		endif;
+		}
 
 		return self::$instance;
-
 	}
-
 
 	/**
 	 * init.
@@ -109,12 +99,8 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.0.0
 	 */
 	public function init() {
-
-		// Load textdomain
 		$this->load_textdomain();
-
 	}
-
 
 	/**
 	 * Textdomain.
@@ -124,10 +110,7 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.0.0
 	 */
 	public function load_textdomain() {
-
-		// Load textdomain
 		load_plugin_textdomain( 'woocommerce-simple-registration', false, basename( dirname( __FILE__ ) ) . '/languages' );
-
 	}
 
 
@@ -163,6 +146,24 @@ class WooCommerce_Simple_Registration {
 
 	}
 
+	/**
+	* Add body classes for WC Simple Register page.
+	*
+	* @since 1.2.0
+	* @param  array $classes
+	* @return array
+	*/
+	function body_class( $classes ) {
+		$classes = (array) $classes;
+
+		if ( has_shortcode( get_post()->post_content, 'woocommerce_simple_registration' ) ) {
+			$classes[] = 'woocommerce-register';
+			$classes[] = 'woocommerce-account';
+			$classes[] = 'woocommerce-page';
+		}
+
+		return $classes;
+	}
 
 }
 
@@ -186,4 +187,4 @@ if ( ! function_exists( 'WooCommerce_Simple_Registration' ) ) :
 
 endif;
 
-WooCommerce_Simple_Registration();
+add_action( 'plugins_loaded', 'WooCommerce_Simple_Registration' );
