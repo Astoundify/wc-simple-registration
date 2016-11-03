@@ -167,14 +167,13 @@ class WooCommerce_Simple_Registration {
 	* @return array
 	*/
 	public function body_class( $classes ) {
-		$classes = (array) $classes;
-
-		if ( has_shortcode( get_post()->post_content, 'woocommerce_simple_registration' ) ) {
-			$classes[] = 'woocommerce-register';
-			$classes[] = 'woocommerce-account';
-			$classes[] = 'woocommerce-page';
+		if( is_singular() && $post_data = get_post( get_queried_object_id() ) ){
+			if ( isset( $post_data->post_content ) && has_shortcode( $post_data->post_content, 'woocommerce_simple_registration' ) ) {
+				$classes[] = 'woocommerce-register';
+				$classes[] = 'woocommerce-account';
+				$classes[] = 'woocommerce-page';
+			}
 		}
-
 		return $classes;
 	}
 
