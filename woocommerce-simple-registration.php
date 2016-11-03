@@ -76,6 +76,15 @@ class WooCommerce_Simple_Registration {
 		// add first name and last name to register form
 		add_action( 'woocommerce_register_form_start', array( $this, 'add_name_input' ) );
 		add_action( 'woocommerce_created_customer', array( $this, 'save_name_input' ) );
+
+		/**
+		 * WooCommerce Social Login Support
+		 * @link http://www.woothemes.com/products/woocommerce-social-login/
+		 * @since 1.3.0
+		 */
+		if( function_exists( 'init_woocommerce_social_login' ) ){
+			require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'includes/wc-social-login.php' );
+		}
 	}
 
 	/**
