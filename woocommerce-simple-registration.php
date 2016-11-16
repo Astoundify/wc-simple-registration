@@ -30,7 +30,7 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.0.0
 	 * @var string $version Plugin version number.
 	 */
-	public $version = '1.0.0';
+	public $version = '1.3.0';
 
 
 	/**
