@@ -77,6 +77,12 @@ class WooCommerce_Simple_Registration {
 		add_action( 'woocommerce_register_form_start', array( $this, 'add_name_input' ) );
 		add_action( 'woocommerce_created_customer', array( $this, 'save_name_input' ) );
 
+		// Settings.
+		add_filter( 'woocommerce_account_settings', array( $this, 'account_settings' ) );
+
+		// Filter WP Register URL.
+		add_filter( 'register_url', array( $this, 'register_url' ) );
+
 		/**
 		 * WooCommerce Social Login Support
 		 * @link http://www.woothemes.com/products/woocommerce-social-login/
@@ -223,6 +229,52 @@ class WooCommerce_Simple_Registration {
 		if ( isset( $request['sr_lastname'] ) && !empty( $request['sr_lastname'] ) ) {
 			update_user_meta( $customer_id, 'last_name', sanitize_text_field( $request['sr_lastname'] ) );
 		}
+	}
+
+	/**
+	 * Settings
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param array $settings WooCommerce Accounts Settings.
+	 * @return array
+	 */
+	public function account_settings( $settings ) {
+		$settings[] = array(
+			'title'         => __( 'WooCommerce Simple Registration', 'woocommerce-simple-registration' ),
+			'id'            => 'woocommerce_simple_registration_options',
+			'type'          => 'title',
+		);
+		$settings[] = array(
+			'title'         => __( 'Customer registration', 'woocommerce-simple-registration' ),
+			'desc'          => __( 'Use "My account" page as WordPress registration URL.', 'woocommerce-simple-registration' ),
+			'id'            => 'woocommerce_simple_registration_myaccount_as_wp_register_url',
+			'default'       => 'yes',
+			'type'          => 'checkbox',
+			'checkboxgroup' => 'start',
+			'autoload'      => true,
+		);
+		$settings[] = array(
+			'type'          => 'sectionend',
+			'id'            => 'woocommerce_simple_registration_options',
+		);
+		return $settings;
+	}
+
+	/**
+	 * Register URL
+	 *
+	 * @since 1.5.0
+	 */
+	public function register_url( $url ) {
+		$enabled = 'yes' === WC_Admin_Settings::get_option( 'woocommerce_simple_registration_myaccount_as_wp_register_url', 'yes' );
+		$my_account_url = get_permalink( WC_Admin_Settings::get_option( 'woocommerce_myaccount_page_id' ) );
+		$my_account_registration = 'yes' === WC_Admin_Settings::get_option( 'woocommerce_enable_myaccount_registration', 'no' );
+
+		if ( $enabled && $my_account_url && $my_account_registration ) {
+			$url = esc_url( $my_account_url );
+		}
+		return $url;
 	}
 
 }
