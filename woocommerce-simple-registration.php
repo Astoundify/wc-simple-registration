@@ -241,7 +241,7 @@ class WooCommerce_Simple_Registration {
 	 */
 	public function account_settings( $settings ) {
 		$settings[] = array(
-			'title'         => __( 'WooCommerce Simple Registration', 'woocommerce-simple-registration' ),
+			'title'         => __( 'Simple Registration for WooCommerce', 'woocommerce-simple-registration' ),
 			'id'            => 'woocommerce_simple_registration_options',
 			'type'          => 'title',
 		);
