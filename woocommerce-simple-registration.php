@@ -246,13 +246,14 @@ class WooCommerce_Simple_Registration {
 			'type'          => 'title',
 		);
 		$settings[] = array(
-			'title'         => __( 'Customer registration', 'woocommerce-simple-registration' ),
-			'desc'          => __( 'Use "My account" page as WordPress registration URL.', 'woocommerce-simple-registration' ),
-			'id'            => 'woocommerce_simple_registration_myaccount_as_wp_register_url',
-			'default'       => 'yes',
-			'type'          => 'checkbox',
-			'checkboxgroup' => 'start',
-			'autoload'      => true,
+			'title'         => __( 'Registration Page', 'woocommerce-simple-registration' ),
+			'desc'          => __( 'Use this page as WordPress registration URL. Page contents: [woocommerce_simple_registration]', 'woocommerce-simple-registration' ),
+			'id'            => 'woocommerce_simple_registration_register_page',
+			'default'       => '',
+			'type'          => 'single_select_page',
+			'class'         => 'wc-enhanced-select',
+			'css'           => 'min-width:300px;',
+			'desc_tip'      => true,
 		);
 		$settings[] = array(
 			'type'          => 'sectionend',
@@ -267,12 +268,10 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.5.0
 	 */
 	public function register_url( $url ) {
-		$enabled = 'yes' === WC_Admin_Settings::get_option( 'woocommerce_simple_registration_myaccount_as_wp_register_url', 'yes' );
-		$my_account_url = get_permalink( WC_Admin_Settings::get_option( 'woocommerce_myaccount_page_id' ) );
-		$my_account_registration = 'yes' === WC_Admin_Settings::get_option( 'woocommerce_enable_myaccount_registration', 'no' );
+		$register_page = WC_Admin_Settings::get_option( 'woocommerce_simple_registration_register_page', '' );
 
-		if ( $enabled && $my_account_url && $my_account_registration ) {
-			$url = esc_url( $my_account_url );
+		if ( $register_page && get_permalink( $register_page ) ) {
+			$url = esc_url( get_permalink( $register_page ) );
 		}
 		return $url;
 	}
