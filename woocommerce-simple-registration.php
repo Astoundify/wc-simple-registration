@@ -77,6 +77,12 @@ class WooCommerce_Simple_Registration {
 		add_action( 'woocommerce_register_form_start', array( $this, 'add_name_input' ) );
 		add_action( 'woocommerce_created_customer', array( $this, 'save_name_input' ) );
 
+		// Settings.
+		add_filter( 'woocommerce_account_settings', array( $this, 'account_settings' ) );
+
+		// Filter WP Register URL.
+		add_filter( 'register_url', array( $this, 'register_url' ) );
+
 		/**
 		 * WooCommerce Social Login Support
 		 * @link http://www.woothemes.com/products/woocommerce-social-login/
@@ -223,6 +229,51 @@ class WooCommerce_Simple_Registration {
 		if ( isset( $request['sr_lastname'] ) && !empty( $request['sr_lastname'] ) ) {
 			update_user_meta( $customer_id, 'last_name', sanitize_text_field( $request['sr_lastname'] ) );
 		}
+	}
+
+	/**
+	 * Settings
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param array $settings WooCommerce Accounts Settings.
+	 * @return array
+	 */
+	public function account_settings( $settings ) {
+		$page = array(
+			array(
+				'title'         => __( 'Registration page', 'woocommerce-simple-registration' ),
+				'desc'          => __( 'Use this page as WordPress registration URL. Page contents: [woocommerce_simple_registration]', 'woocommerce-simple-registration' ),
+				'id'            => 'woocommerce_simple_registration_register_page',
+				'default'       => '',
+				'type'          => 'single_select_page',
+				'class'         => 'wc-enhanced-select',
+				'css'           => 'min-width:300px;',
+				'desc_tip'      => true,
+			),
+		);
+
+		array_splice( $settings, 2, 0, $page );
+
+		return $settings;
+	}
+
+	/**
+	 * Register URL
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $url Registration URL.
+	 * @return string $url
+	 */
+	public function register_url( $url ) {
+		$register_page = WC_Admin_Settings::get_option( 'woocommerce_simple_registration_register_page', '' );
+
+		if ( $register_page && get_permalink( $register_page ) ) {
+			$url = esc_url( get_permalink( $register_page ) );
+		}
+
+		return $url;
 	}
 
 }
