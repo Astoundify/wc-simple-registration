@@ -264,24 +264,22 @@ class WooCommerce_Simple_Registration {
 
 		$name = array(
 			array(
-				'title'         => __( 'Registration name field', 'woocommerce-simple-registration' ),
-				'desc'          => __( 'Enable first and last name in registration field.', 'woocommerce-simple-registration' ),
+				'desc'          => __( 'Enable first and last name fields.', 'woocommerce-simple-registration' ),
 				'id'            => 'woocommerce_simple_registration_name_fields',
 				'default'       => 'yes',
-				'checkboxgroup' => 'start',
+				'checkboxgroup'   => '',
 				'type'          => 'checkbox',
 			),
 			array(
-				'title'         => '',
-				'desc'          => __( 'Make name field required.', 'woocommerce-simple-registration' ),
+				'desc'          => __( 'Require first and last name fields.', 'woocommerce-simple-registration' ),
 				'id'            => 'woocommerce_simple_registration_name_fields_required',
 				'default'       => 'no',
-				'checkboxgroup' => 'end',
+				'checkboxgroup'   => '',
 				'type'          => 'checkbox',
 			),
 		);
 
-		array_splice( $settings, 3, 0, $name );
+		array_splice( $settings, 9, 0, $name );
 
 		return $settings;
 	}
