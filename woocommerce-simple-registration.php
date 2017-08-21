@@ -240,25 +240,21 @@ class WooCommerce_Simple_Registration {
 	 * @return array
 	 */
 	public function account_settings( $settings ) {
-		$settings[] = array(
-			'title'         => __( 'Simple Registration for WooCommerce', 'woocommerce-simple-registration' ),
-			'id'            => 'woocommerce_simple_registration_options',
-			'type'          => 'title',
+		$page = array(
+			array(
+				'title'         => __( 'Registration page', 'woocommerce-simple-registration' ),
+				'desc'          => __( 'Use this page as WordPress registration URL. Page contents: [woocommerce_simple_registration]', 'woocommerce-simple-registration' ),
+				'id'            => 'woocommerce_simple_registration_register_page',
+				'default'       => '',
+				'type'          => 'single_select_page',
+				'class'         => 'wc-enhanced-select',
+				'css'           => 'min-width:300px;',
+				'desc_tip'      => true,
+			),
 		);
-		$settings[] = array(
-			'title'         => __( 'Registration Page', 'woocommerce-simple-registration' ),
-			'desc'          => __( 'Use this page as WordPress registration URL. Page contents: [woocommerce_simple_registration]', 'woocommerce-simple-registration' ),
-			'id'            => 'woocommerce_simple_registration_register_page',
-			'default'       => '',
-			'type'          => 'single_select_page',
-			'class'         => 'wc-enhanced-select',
-			'css'           => 'min-width:300px;',
-			'desc_tip'      => true,
-		);
-		$settings[] = array(
-			'type'          => 'sectionend',
-			'id'            => 'woocommerce_simple_registration_options',
-		);
+
+		array_splice( $settings, 2, 0, $page );
+
 		return $settings;
 	}
 
@@ -266,6 +262,9 @@ class WooCommerce_Simple_Registration {
 	 * Register URL
 	 *
 	 * @since 1.5.0
+	 *
+	 * @param string $url Registration URL.
+	 * @return string $url
 	 */
 	public function register_url( $url ) {
 		$register_page = WC_Admin_Settings::get_option( 'woocommerce_simple_registration_register_page', '' );
@@ -273,6 +272,7 @@ class WooCommerce_Simple_Registration {
 		if ( $register_page && get_permalink( $register_page ) ) {
 			$url = esc_url( get_permalink( $register_page ) );
 		}
+
 		return $url;
 	}
 
