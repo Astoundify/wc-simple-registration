@@ -190,19 +190,23 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.3.0
 	 */
 	public function add_name_input(){
+		// Name Field Option.
+		$enabled = 'yes' === WC_Admin_Settings::get_option( 'woocommerce_simple_registration_name_fields', 'yes' ) ? true : false;
+		$required = 'yes' === WC_Admin_Settings::get_option( 'woocommerce_simple_registration_name_fields_required', 'no' ) ? true : false;
+
 		/* Filter to disable this feature. */
-		if( ! apply_filters( 'woocommerce_simple_registration_name_fields', true ) ){
+		if( ! apply_filters( 'woocommerce_simple_registration_name_fields', true ) || ! $enabled ){
 			return;
 		}
 		?>
 		<p class="woocommerce-FormRow woocommerce-FormRow--first form-row form-row-first">
-			<label for="reg_sr_firstname"><?php _e( 'First Name', 'woocommerce-simple-registration' ); ?></label>
-			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="sr_firstname" id="reg_sr_firstname" value="<?php if ( ! empty( $_POST['sr_firstname'] ) ) echo esc_attr( $_POST['sr_firstname'] ); ?>" />
+			<label for="reg_sr_firstname"><?php _e( 'First Name', 'woocommerce-simple-registration' ); ?><?php echo( $required ? ' <span class="required">*</span>' : '' ) ?></label>
+			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="sr_firstname" id="reg_sr_firstname" value="<?php if ( ! empty( $_POST['sr_firstname'] ) ) echo esc_attr( $_POST['sr_firstname'] ); ?>" <?php echo( $required ? ' required' : '' ) ?>/>
 		</p>
 
 		<p class="woocommerce-FormRow woocommerce-FormRow--last form-row form-row-last">
-			<label for="reg_sr_lastname"><?php _e( 'Last Name', 'woocommerce-simple-registration' ); ?></label>
-			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="sr_lastname" id="reg_sr_lastname" value="<?php if ( ! empty( $_POST['sr_lastname'] ) ) echo esc_attr( $_POST['sr_lastname'] ); ?>" />
+			<label for="reg_sr_lastname"><?php _e( 'Last Name', 'woocommerce-simple-registration' ); ?><?php echo( $required ? ' <span class="required">*</span>' : '' ) ?></label>
+			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="sr_lastname" id="reg_sr_lastname" value="<?php if ( ! empty( $_POST['sr_lastname'] ) ) echo esc_attr( $_POST['sr_lastname'] ); ?>" <?php echo( $required ? ' required' : '' ) ?> />
 		</p>
 		<?php
 	}
@@ -213,8 +217,11 @@ class WooCommerce_Simple_Registration {
 	 * @see WC/includes/wc-user-functions.php line 114
 	 */
 	public function save_name_input( $customer_id ){
+		// Name Field Option.
+		$enable = 'yes' === WC_Admin_Settings::get_option( 'woocommerce_simple_registration_name_fields', 'yes' ) ? true : false;
+
 		/* Filter to disable this feature. */
-		if( ! apply_filters( 'woocommerce_simple_registration_name_fields', true ) ){
+		if( ! apply_filters( 'woocommerce_simple_registration_name_fields', true ) || ! $enable ){
 			return;
 		}
 
@@ -254,6 +261,25 @@ class WooCommerce_Simple_Registration {
 		);
 
 		array_splice( $settings, 2, 0, $page );
+
+		$name = array(
+			array(
+				'desc'          => __( 'Enable first and last name fields.', 'woocommerce-simple-registration' ),
+				'id'            => 'woocommerce_simple_registration_name_fields',
+				'default'       => 'yes',
+				'checkboxgroup'   => '',
+				'type'          => 'checkbox',
+			),
+			array(
+				'desc'          => __( 'Require first and last name fields.', 'woocommerce-simple-registration' ),
+				'id'            => 'woocommerce_simple_registration_name_fields_required',
+				'default'       => 'no',
+				'checkboxgroup'   => '',
+				'type'          => 'checkbox',
+			),
+		);
+
+		array_splice( $settings, 9, 0, $name );
 
 		return $settings;
 	}
