@@ -254,6 +254,10 @@ class WooCommerce_Simple_Registration {
 				'id'            => 'woocommerce_simple_registration_register_page',
 				'default'       => '',
 				'type'          => 'single_select_page',
+				'args'          => array(
+					'option_none_value' => 0,
+					'show_option_none' => esc_html__( '&mdash; Select &mdash;', 'woocommerce-simple-registration' ),
+				),
 				'class'         => 'wc-enhanced-select',
 				'css'           => 'min-width:300px;',
 				'desc_tip'      => true,
