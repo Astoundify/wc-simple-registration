@@ -252,8 +252,12 @@ class WooCommerce_Simple_Registration {
 				'title'         => __( 'Registration page', 'woocommerce-simple-registration' ),
 				'desc'          => __( 'Use this page as WordPress registration URL. Page contents: [woocommerce_simple_registration]', 'woocommerce-simple-registration' ),
 				'id'            => 'woocommerce_simple_registration_register_page',
-				'default'       => '',
+				'default'       => 0,
 				'type'          => 'single_select_page',
+				'args'          => array(
+					'option_none_value' => 0,
+					'show_option_none' => esc_html__( 'Select a page&hellip;', 'woocommerce-simple-registration' ),
+				),
 				'class'         => 'wc-enhanced-select',
 				'css'           => 'min-width:300px;',
 				'desc_tip'      => true,
@@ -293,7 +297,7 @@ class WooCommerce_Simple_Registration {
 	 * @return string $url
 	 */
 	public function register_url( $url ) {
-		$register_page = WC_Admin_Settings::get_option( 'woocommerce_simple_registration_register_page', '' );
+		$register_page = WC_Admin_Settings::get_option( 'woocommerce_simple_registration_register_page', 0 );
 
 		if ( $register_page && get_permalink( $register_page ) ) {
 			$url = esc_url( get_permalink( $register_page ) );
