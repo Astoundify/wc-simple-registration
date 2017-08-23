@@ -256,7 +256,7 @@ class WooCommerce_Simple_Registration {
 				'type'          => 'single_select_page',
 				'args'          => array(
 					'option_none_value' => 0,
-					'show_option_none' => esc_html__( '&mdash; Select &mdash;', 'woocommerce-simple-registration' ),
+					'show_option_none' => esc_html__( 'Select a page&hellip;', 'woocommerce-simple-registration' ),
 				),
 				'class'         => 'wc-enhanced-select',
 				'css'           => 'min-width:300px;',
