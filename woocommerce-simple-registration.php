@@ -3,7 +3,7 @@
  * Plugin Name: Simple Registration for WooCommerce
  * Plugin URI: https://astoundify.com/products/woocommerce-simple-registration/
  * Description: A simple plugin to add a [woocommerce_simple_registration] shortcode to display the registration form on a separate page.
- * Version: 1.4.0
+ * Version: 1.5.0
  * Author: Astoundify
  * Author URI: https://astoundify.com/
  * Text Domain: woocommerce-simple-registration
@@ -30,7 +30,7 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.0.0
 	 * @var string $version Plugin version number.
 	 */
-	public $version = '1.4.0';
+	public $version = '1.5.0';
 
 
 	/**
@@ -76,6 +76,12 @@ class WooCommerce_Simple_Registration {
 		// add first name and last name to register form
 		add_action( 'woocommerce_register_form_start', array( $this, 'add_name_input' ) );
 		add_action( 'woocommerce_created_customer', array( $this, 'save_name_input' ) );
+
+		// Settings.
+		add_filter( 'woocommerce_account_settings', array( $this, 'account_settings' ) );
+
+		// Filter WP Register URL.
+		add_filter( 'register_url', array( $this, 'register_url' ) );
 
 		/**
 		 * WooCommerce Social Login Support
@@ -184,19 +190,23 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.3.0
 	 */
 	public function add_name_input(){
+		// Name Field Option.
+		$enabled = 'yes' === WC_Admin_Settings::get_option( 'woocommerce_simple_registration_name_fields', 'yes' ) ? true : false;
+		$required = 'yes' === WC_Admin_Settings::get_option( 'woocommerce_simple_registration_name_fields_required', 'no' ) ? true : false;
+
 		/* Filter to disable this feature. */
-		if( ! apply_filters( 'woocommerce_simple_registration_name_fields', true ) ){
+		if( ! apply_filters( 'woocommerce_simple_registration_name_fields', true ) || ! $enabled ){
 			return;
 		}
 		?>
 		<p class="woocommerce-FormRow woocommerce-FormRow--first form-row form-row-first">
-			<label for="reg_sr_firstname"><?php _e( 'First Name', 'woocommerce-simple-registration' ); ?></label>
-			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="sr_firstname" id="reg_sr_firstname" value="<?php if ( ! empty( $_POST['sr_firstname'] ) ) echo esc_attr( $_POST['sr_firstname'] ); ?>" />
+			<label for="reg_sr_firstname"><?php _e( 'First Name', 'woocommerce-simple-registration' ); ?><?php echo( $required ? ' <span class="required">*</span>' : '' ) ?></label>
+			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="sr_firstname" id="reg_sr_firstname" value="<?php if ( ! empty( $_POST['sr_firstname'] ) ) echo esc_attr( $_POST['sr_firstname'] ); ?>" <?php echo( $required ? ' required' : '' ) ?>/>
 		</p>
 
 		<p class="woocommerce-FormRow woocommerce-FormRow--last form-row form-row-last">
-			<label for="reg_sr_lastname"><?php _e( 'Last Name', 'woocommerce-simple-registration' ); ?></label>
-			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="sr_lastname" id="reg_sr_lastname" value="<?php if ( ! empty( $_POST['sr_lastname'] ) ) echo esc_attr( $_POST['sr_lastname'] ); ?>" />
+			<label for="reg_sr_lastname"><?php _e( 'Last Name', 'woocommerce-simple-registration' ); ?><?php echo( $required ? ' <span class="required">*</span>' : '' ) ?></label>
+			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="sr_lastname" id="reg_sr_lastname" value="<?php if ( ! empty( $_POST['sr_lastname'] ) ) echo esc_attr( $_POST['sr_lastname'] ); ?>" <?php echo( $required ? ' required' : '' ) ?> />
 		</p>
 		<?php
 	}
@@ -207,8 +217,11 @@ class WooCommerce_Simple_Registration {
 	 * @see WC/includes/wc-user-functions.php line 114
 	 */
 	public function save_name_input( $customer_id ){
+		// Name Field Option.
+		$enable = 'yes' === WC_Admin_Settings::get_option( 'woocommerce_simple_registration_name_fields', 'yes' ) ? true : false;
+
 		/* Filter to disable this feature. */
-		if( ! apply_filters( 'woocommerce_simple_registration_name_fields', true ) ){
+		if( ! apply_filters( 'woocommerce_simple_registration_name_fields', true ) || ! $enable ){
 			return;
 		}
 
@@ -223,6 +236,74 @@ class WooCommerce_Simple_Registration {
 		if ( isset( $request['sr_lastname'] ) && !empty( $request['sr_lastname'] ) ) {
 			update_user_meta( $customer_id, 'last_name', sanitize_text_field( $request['sr_lastname'] ) );
 		}
+	}
+
+	/**
+	 * Settings
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param array $settings WooCommerce Accounts Settings.
+	 * @return array
+	 */
+	public function account_settings( $settings ) {
+		$page = array(
+			array(
+				'title'         => __( 'Registration page', 'woocommerce-simple-registration' ),
+				'desc'          => __( 'Use this page as WordPress registration URL. Page contents: [woocommerce_simple_registration]', 'woocommerce-simple-registration' ),
+				'id'            => 'woocommerce_simple_registration_register_page',
+				'default'       => 0,
+				'type'          => 'single_select_page',
+				'args'          => array(
+					'option_none_value' => 0,
+					'show_option_none' => esc_html__( 'Select a page&hellip;', 'woocommerce-simple-registration' ),
+				),
+				'class'         => 'wc-enhanced-select',
+				'css'           => 'min-width:300px;',
+				'desc_tip'      => true,
+			),
+		);
+
+		array_splice( $settings, 2, 0, $page );
+
+		$name = array(
+			array(
+				'desc'          => __( 'Enable first and last name fields.', 'woocommerce-simple-registration' ),
+				'id'            => 'woocommerce_simple_registration_name_fields',
+				'default'       => 'yes',
+				'checkboxgroup'   => '',
+				'type'          => 'checkbox',
+			),
+			array(
+				'desc'          => __( 'Require first and last name fields.', 'woocommerce-simple-registration' ),
+				'id'            => 'woocommerce_simple_registration_name_fields_required',
+				'default'       => 'no',
+				'checkboxgroup'   => '',
+				'type'          => 'checkbox',
+			),
+		);
+
+		array_splice( $settings, 9, 0, $name );
+
+		return $settings;
+	}
+
+	/**
+	 * Register URL
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $url Registration URL.
+	 * @return string $url
+	 */
+	public function register_url( $url ) {
+		$register_page = WC_Admin_Settings::get_option( 'woocommerce_simple_registration_register_page', 0 );
+
+		if ( $register_page && get_permalink( $register_page ) ) {
+			$url = esc_url( get_permalink( $register_page ) );
+		}
+
+		return $url;
 	}
 
 }

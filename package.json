@@ -1,21 +1,21 @@
 {
-  "name": "wp-job-manager-claim-listing",
-  "version": "2.0.0",
-  "description": "=== WP Job Manager - Claim Listing === Contributors: Astoundify Requires at least: 4.1  Tested up to: 4.3.1 Stable tag: 2.0.0 License: GNU General Public License v3.0",
+  "name": "woocommerce-simple-registration",
+  "version": "1.5.0",
+  "description": "A simple plugin to add a [woocommerce_simple_registration] shortcode to display the registration form on a separate page",
   "main": "Gruntfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/astoundify/wp-job-manager-claim-listing.git"
+    "url": "git+https://github.com/astoundify/woocommerce-simple-registration.git"
   },
   "author": "Astoundify",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/astoundify/wp-job-manager-claim-listing/issues"
+    "url": "https://github.com/astoundify/woocommerce-simple-registration"
   },
-  "homepage": "https://github.com/astoundify/wp-job-manager-claim-listing#readme",
+  "homepage": "https://github.com/astoundify/woocommerce-simple-registration",
   "dependencies": {
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
