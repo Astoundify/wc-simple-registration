@@ -252,7 +252,7 @@ class WooCommerce_Simple_Registration {
 				'title'         => __( 'Registration page', 'woocommerce-simple-registration' ),
 				'desc'          => __( 'Use this page as WordPress registration URL. Page contents: [woocommerce_simple_registration]', 'woocommerce-simple-registration' ),
 				'id'            => 'woocommerce_simple_registration_register_page',
-				'default'       => '',
+				'default'       => 0,
 				'type'          => 'single_select_page',
 				'args'          => array(
 					'option_none_value' => 0,
