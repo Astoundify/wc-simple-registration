@@ -54,6 +54,10 @@ wp_enqueue_script( 'wc-password-strength-meter' );
 			<input type="submit" class="woocommerce-Button button" name="register" value="<?php esc_attr_e( 'Register', 'woocommerce-simple-registration' ); ?>" />
 		</p>
 
+		<p class="woocommerce-simple-registration-login-link">
+			<a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>"><?php esc_html_e( 'Log in', 'woocommerce-simple-registration' ); ?></a>
+		</p>
+
 		<?php do_action( 'woocommerce_register_form_end' ); ?>
 
 	</form>
