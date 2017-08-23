@@ -297,7 +297,7 @@ class WooCommerce_Simple_Registration {
 	 * @return string $url
 	 */
 	public function register_url( $url ) {
-		$register_page = WC_Admin_Settings::get_option( 'woocommerce_simple_registration_register_page', '' );
+		$register_page = WC_Admin_Settings::get_option( 'woocommerce_simple_registration_register_page', 0 );
 
 		if ( $register_page && get_permalink( $register_page ) ) {
 			$url = esc_url( get_permalink( $register_page ) );
