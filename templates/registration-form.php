@@ -47,7 +47,7 @@ wp_enqueue_script( 'wc-password-strength-meter' );
 		<div style="<?php echo ( ( is_rtl() ) ? 'right' : 'left' ); ?>: -999em; position: absolute;"><label for="trap"><?php _e( 'Anti-spam', 'woocommerce-simple-registration' ); ?></label><input type="text" name="email_2" id="trap" tabindex="-1" /></div>
 
 		<?php do_action( 'woocommerce_register_form' ); ?>
-		<?php do_action( 'register_form' ); ?>
+		<?php do_action( 'woocommerce_simple_registration_form' ); ?>
 
 		<p class="woocomerce-FormRow form-row">
 			<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
