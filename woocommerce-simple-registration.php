@@ -3,7 +3,7 @@
  * Plugin Name: Simple Registration for WooCommerce
  * Plugin URI: https://astoundify.com/products/woocommerce-simple-registration/
  * Description: A simple plugin to add a [woocommerce_simple_registration] shortcode to display the registration form on a separate page.
- * Version: 1.5.0
+ * Version: 1.5.1
  * Author: Astoundify
  * Author URI: https://astoundify.com/
  * Text Domain: woocommerce-simple-registration
@@ -30,7 +30,7 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.0.0
 	 * @var string $version Plugin version number.
 	 */
-	public $version = '1.5.0';
+	public $version = '1.5.1';
 
 
 	/**
