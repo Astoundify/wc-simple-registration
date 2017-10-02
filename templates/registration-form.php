@@ -2,7 +2,7 @@
 /**
  * Registration form.
  *
- * @author 	Jeroen Sormani
+ * @author 	    Astoundify
  * @package 	WooCommerce-Simple-Registration
  * @version     1.0.0
  */
