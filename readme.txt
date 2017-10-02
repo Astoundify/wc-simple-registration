@@ -3,8 +3,8 @@ Contributors: Astoundify
 Donate link: https://www.paypal.me/astoundify
 Tags: woocommerce, woocommerce registration, woocommerce register, woocommerce registration form, woocommerce form
 Requires at least: 4.7.0
-Tested up to: 4.8.1
-Stable tag: 1.5.1
+Tested up to: 4.8.2
+Stable tag: 1.5.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -21,6 +21,10 @@ A simple plugin to add a [woocommerce_simple_registration] shortcode to display 
 3. Use the shortcode `woocommerce_simple_registration` on a self-created page to display the registration form.
 
 == Changelog ==
+
+= 1.5.2: October 2, 2017 =
+
+* Fix: Do not allow spam honeypot to autofill.
 
 = 1.5.1: August 31, 2017 =
 
