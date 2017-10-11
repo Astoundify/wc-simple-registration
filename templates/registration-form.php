@@ -2,9 +2,10 @@
 /**
  * Registration form.
  *
- * @author 	    Astoundify
- * @package 	WooCommerce-Simple-Registration
- * @version     1.0.0
+ * @author      Astoundify
+ * @package     WooCommerce-Simple-Registration
+ * @since       1.0.0
+ * @version     1.5.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -42,9 +43,6 @@ wp_enqueue_script( 'wc-password-strength-meter' );
 			</p>
 
 		<?php endif; ?>
-
-		<!-- Spam Trap -->
-		<div style="<?php echo ( ( is_rtl() ) ? 'right' : 'left' ); ?>: -999em; position: absolute;"><label for="trap"><?php _e( 'Anti-spam', 'woocommerce-simple-registration' ); ?></label><input type="text" name="email_2" id="trap" tabindex="-1" autocomplete="off" /></div>
 
 		<?php do_action( 'woocommerce_register_form' ); ?>
 		<?php do_action( 'woocommerce_simple_registration_form' ); ?>
