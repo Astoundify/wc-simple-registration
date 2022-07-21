@@ -1,6 +1,6 @@
 {
   "name": "woocommerce-simple-registration",
-  "version": "1.5.3",
+  "version": "1.5.5",
   "description": "A simple plugin to add a [woocommerce_simple_registration] shortcode to display the registration form on a separate page",
   "main": "Gruntfile.js",
   "scripts": {
