@@ -3,8 +3,8 @@ Contributors: Astoundify
 Donate link: https://www.paypal.me/astoundify
 Tags: woocommerce, woocommerce registration, woocommerce register, woocommerce registration form, woocommerce form
 Requires at least: 4.7.0
-Tested up to: 6.0.1
-Stable tag: 1.5.5
+Tested up to: 6.2.2
+Stable tag: 1.5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -46,6 +46,11 @@ If you like this plugin, consider exploring our other themes and plugins:
 * [reCAPTCHA](https://wordpress.org/plugins/astoundify-recaptcha/) Google reCAPTCHA for WordPress. Currently supports: WordPress Login/Register, WooCommerce Login/Register, WP Job Manager (Submission Form), Claim Listing for WP Job Manager, Gravity Forms, Ninja Forms, Contact Form 7.
 
 == Changelog ==
+
+= 1.5.6: June 28, 2023 =
+
+* New: Option for Select roles to display on sign up form. Settings > Simple Registration.
+* Update: Compatibility check with latest WordPress v6.2.2.
 
 = 1.5.5: July 21, 2022 =
 
