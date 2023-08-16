@@ -3,7 +3,7 @@
  * Plugin Name: Simple Registration for WooCommerce
  * Plugin URI: https://astoundify.com/products/woocommerce-simple-registration/
  * Description: A simple plugin to add a [woocommerce_simple_registration] shortcode to display the registration form on a separate page.
- * Version: 1.5.5
+ * Version: 1.5.6
  * Author: Astoundify
  * Author URI: https://astoundify.com/
  * Text Domain: woocommerce-simple-registration
@@ -11,6 +11,19 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+function sd_style_script_register() {
+
+	wp_register_style( 'select2-min-css', plugins_url( '/assets/select2/css/select2.min.css' , __FILE__ ) );
+	wp_enqueue_style( 'select2-min-css' );
+	wp_register_script( 'select2-full-min-js', plugins_url( '/assets/select2/js/select2.full.min.js' , __FILE__ ) );
+	wp_enqueue_script( 'select2-full-min-js' );
+	wp_register_script( 'custom-js', plugins_url( '/assets/js/custom.js' , __FILE__ ) );
+	wp_enqueue_script( 'custom-js' );
+
+
+}
+add_action( 'admin_print_styles', 'sd_style_script_register', 99 );
 
 /**
  * Class WooCommerce_Simple_Registration.
@@ -30,7 +43,7 @@ class WooCommerce_Simple_Registration {
 	 * @since 1.0.0
 	 * @var string $version Plugin version number.
 	 */
-	public $version = '1.5.5';
+	public $version = '1.5.6';
 
 
 	/**
@@ -91,6 +104,12 @@ class WooCommerce_Simple_Registration {
 		if( function_exists( 'init_woocommerce_social_login' ) ){
 			require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'includes/wc-social-login.php' );
 		}
+
+		// 
+		require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'includes/display-role-admin.php' );
+
+		add_action( 'user_register', array( $this, 'update_user_register' ) );
+
 	}
 
 	/**
@@ -209,6 +228,29 @@ class WooCommerce_Simple_Registration {
 			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="sr_lastname" id="reg_sr_lastname" value="<?php if ( ! empty( $_POST['sr_lastname'] ) ) echo esc_attr( $_POST['sr_lastname'] ); ?>" <?php echo( $required ? ' required' : '' ) ?> />
 		</p>
 		<?php
+		global $wp_roles;
+		$selected_page = get_option( 'select_role_registration');
+		if(!empty($selected_page)){
+		?>	
+			<label for="reg_sr_lastname"><?php _e( 'Account', 'woocommerce-simple-registration' ); ?></label>
+			<?php
+				echo '<select name="role" class="input" style="margin-bottom: 40px;">';
+					echo '<option value="select">Select</option>';
+					
+					foreach ( $wp_roles->roles as $key => $value ) {
+						// Exclude default roles such as administrator etc. Add your own
+						if ( in_array( $value['name'], $selected_page ) ) {
+							echo '<option value="'.trim($key).'">'.$value['name'].'</option>';
+						}
+					}
+				echo '</select>';
+		}
+	}
+
+	public function update_user_register( $user_id ) {
+
+		$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => $_POST['role'] ) );
+
 	}
 
 	/**
