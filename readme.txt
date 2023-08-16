@@ -47,7 +47,7 @@ If you like this plugin, consider exploring our other themes and plugins:
 
 == Changelog ==
 
-= 1.5.6: June 28, 2023 =
+= 1.5.6: August 16, 2023 =
 
 * New: Option for Select roles to display on sign up form. Settings > Simple Registration.
 * Update: Compatibility check with latest WordPress v6.2.2.
