@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Simple Registration for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Simple Registration for WooCommerce 1.5.5\n"
+"Project-Id-Version: Simple Registration for WooCommerce 1.5.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-simple-registration\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
