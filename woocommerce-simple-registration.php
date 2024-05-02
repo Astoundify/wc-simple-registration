@@ -3,7 +3,7 @@
  * Plugin Name: Simple Registration for WooCommerce
  * Plugin URI: https://astoundify.com/products/woocommerce-simple-registration/
  * Description: A simple plugin to add a [woocommerce_simple_registration] shortcode to display the registration form on a separate page.
- * Version: 1.5.6
+ * Version: 1.5.7
  * Author: Astoundify
  * Author URI: https://astoundify.com/
  * Text Domain: woocommerce-simple-registration
@@ -229,7 +229,8 @@ class WooCommerce_Simple_Registration {
 		</p>
 		<?php
 		global $wp_roles;
-		$selected_page = get_option( 'select_role_registration');
+		$selected_page = get_option( 'select_role_registration');	
+		
 		if(!empty($selected_page)){
 		?>	
 			<label for="reg_sr_lastname"><?php _e( 'Account', 'woocommerce-simple-registration' ); ?></label>
@@ -238,19 +239,34 @@ class WooCommerce_Simple_Registration {
 					echo '<option value="select">Select</option>';
 					
 					foreach ( $wp_roles->roles as $key => $value ) {
-						// Exclude default roles such as administrator etc. Add your own
+						// Exclude default roles such as administrator etc. Add your own						
 						if ( in_array( $value['name'], $selected_page ) ) {
-							echo '<option value="'.trim($key).'">'.$value['name'].'</option>';
+							echo '<option value="'.esc_attr(trim($key)).'">'.esc_attr($value['name']).'</option>';
+							
 						}
 					}
 				echo '</select>';
 		}
+		
+		
 	}
 
 	public function update_user_register( $user_id ) {
-
-		$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => $_POST['role'] ) );
-
+		global $wp_roles;
+		$selected_page = get_option( 'select_role_registration');
+		$roleKey = array();
+		if(!empty($selected_page)){	
+			foreach ( $wp_roles->roles as $key => $value ) {				
+				if ( in_array( $value['name'], $selected_page ) ) {
+					$roleKey[] =  trim($key);
+				}
+			}
+		}	
+		if(isset($_POST['role']) && in_array(trim($_POST['role']), $roleKey) && strtolower($_POST['role']) != 'administrator' ){			
+			$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => $_POST['role'] ) );		
+		}else{
+			$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => 'subscriber' ) );
+		}
 	}
 
 	/**
