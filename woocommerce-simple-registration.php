@@ -262,7 +262,7 @@ class WooCommerce_Simple_Registration {
 				}
 			}
 		}	
-		if(isset($_POST['role']) && in_array(trim($_POST['role']), $roleKey)){			
+		if(isset($_POST['role']) && in_array(trim($_POST['role']), $roleKey) && strtolower($_POST['role']) != 'administrator' ){			
 			$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => $_POST['role'] ) );		
 		}else{
 			$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => 'subscriber' ) );
