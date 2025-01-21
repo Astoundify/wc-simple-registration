@@ -13,15 +13,16 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 function sd_style_script_register() {
-
-	wp_register_style( 'select2-min-css', plugins_url( '/assets/select2/css/select2.min.css' , __FILE__ ) );
-	wp_enqueue_style( 'select2-min-css' );
-	wp_register_script( 'select2-full-min-js', plugins_url( '/assets/select2/js/select2.full.min.js' , __FILE__ ) );
-	wp_enqueue_script( 'select2-full-min-js' );
-	wp_register_script( 'custom-js', plugins_url( '/assets/js/custom.js' , __FILE__ ) );
-	wp_enqueue_script( 'custom-js' );
-
-
+	if(isset($_REQUEST['page']) && ($_REQUEST['page'] == 'role-requests' || $_REQUEST['page'] =='simple_registration')){
+		wp_enqueue_style( 'select2-min-css', plugins_url( '/assets/select2/css/select2.min.css' , __FILE__ ) );
+		wp_enqueue_script( 'select2-full-min-js', plugins_url( '/assets/select2/js/select2.full.min.js' , __FILE__ ) );
+		wp_enqueue_style( 'bootstrap-min-css', plugins_url( '/assets/css/bootstrap.min.css' , __FILE__ ) );
+		wp_enqueue_style( 'dataTables-bootstrap5-css', plugins_url( '/assets/css/dataTables.bootstrap5.css' , __FILE__ ) );	
+		wp_enqueue_script( 'bootstrap-bundle-js', plugins_url( '/assets/js/bootstrap.bundle.min.js' , __FILE__ ) );
+		wp_enqueue_script( 'dataTables-js', plugins_url( '/assets/js/dataTables.js' , __FILE__ ) );
+		wp_enqueue_script( 'dataTables-bootstrap5-js', plugins_url( '/assets/js/dataTables.bootstrap5.js' , __FILE__ ) );
+		wp_enqueue_script( 'custom-js', plugins_url( '/assets/js/custom.js' , __FILE__ ) );
+	}
 }
 add_action( 'admin_print_styles', 'sd_style_script_register', 99 );
 

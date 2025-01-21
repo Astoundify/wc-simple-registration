@@ -16,7 +16,7 @@ function simple_registration_func(){
         'simple_registration',                                                 // Menu slug
         'simple_registration_page_callback',                                   // Callback function
         'dashicons-admin-users',                                               // Icon (you can replace with any dashicon)
-        7                                                                      // Position in the menu
+        99                                                                      // Position in the menu
     );
 	
 	add_submenu_page(
@@ -132,16 +132,22 @@ function display_role_requests_page() {
     if (isset($_POST['action']) && isset($_POST['request_index'])) {
         $requests = get_option('role_requests', []);
         $index = intval($_POST['request_index']);
-
+		$userID  = $requests[$index]['id_user'];
         if ($_POST['action'] === 'approve') {
             $requests[$index]['status'] = 1;
-			$userID  = $requests[$index]['id_user'];
 			$requestedRole  = $requests[$index]['input_role'];
 			$user_id = wp_update_user( array( 'ID' => $userID, 'role' => $requestedRole ) );
-            unset($requests[$index]);			
+            //unset($requests[$index]);			
         } elseif ($_POST['action'] === 'reject') {
             $requests[$index]['status'] = 0;
-			unset($requests[$index]);	
+        }elseif ($_POST['action'] === 'rollback') {			
+            $requests[$index]['status'] = -2;
+            $registeredRole = $requests[$index]['current_role'];
+			$user_id = wp_update_user( array( 'ID' => $userID, 'role' => $registeredRole ) );
+        }elseif ($_POST['action'] === 'rollback-reject') {			
+            $requests[$index]['status'] = -1;
+            $registeredRole = $requests[$index]['current_role'];
+			$user_id = wp_update_user( array( 'ID' => $userID, 'role' => $registeredRole ) );
         }
 		
         update_option('role_requests', $requests);
@@ -152,13 +158,13 @@ function display_role_requests_page() {
     echo '<div class="wrap">';
     echo '<h1>'.__( 'Role Requests', 'woocommerce-simple-registration' ).'</h1>';
 
-    echo '<table class="wp-list-table widefat fixed striped">';
+    echo '<table id="role_ragister_list" class="table table-striped" style="width:100%">';
     echo '<thead>
 			<tr>
 				<th>'.__( 'User ID', 'woocommerce-simple-registration' ).'</th>
 				<th>'.__( 'User Name', 'woocommerce-simple-registration' ).'</th>
 				<th>'.__( 'User Email', 'woocommerce-simple-registration' ).'</th>
-				<th>'.__( 'Current Role', 'woocommerce-simple-registration' ).'</th>
+				<th>'.__( 'Register Role', 'woocommerce-simple-registration' ).'</th>
 				<th>'.__( 'Requested Role', 'woocommerce-simple-registration' ).'</th>
 				<th>'.__( 'Status', 'woocommerce-simple-registration' ).'</th>
 				<th>'.__( 'Actions', 'woocommerce-simple-registration' ).'</th>
@@ -182,6 +188,8 @@ function display_role_requests_page() {
 				$status_text = __( 'Approved', 'woocommerce-simple-registration' );
 			} elseif ($request['status'] === 0) {
 				$status_text = __( 'Rejected', 'woocommerce-simple-registration' );
+			} elseif ($request['status'] === -2) {
+				$status_text = __( 'Approval Withdraw', 'woocommerce-simple-registration' );
 			}
 
 			echo '<tr>';
@@ -192,13 +200,19 @@ function display_role_requests_page() {
 			echo '<td>' . esc_html(ucfirst($request["input_role"])) . '</td>';
 			echo '<td>' . esc_html($status_text) . '</td>';
 			echo '<td>';
-			if ($request['status'] === -1) {
+			
 				echo '<form method="POST" style="display:inline-block;">';
 				echo '<input type="hidden" name="request_index" value="' . esc_attr($index) . '">';
+				if ($request['status'] === -1 || $request['status'] === -2) {
 				echo '<button name="action" value="approve" class="button button-primary">'.__( 'Approve', 'woocommerce-simple-registration' ).'</button> ';
 				echo '<button name="action" value="reject" class="button button-secondary">'.__( 'Reject', 'woocommerce-simple-registration' ).'</button>';
+				}elseif ($request['status'] === 0){
+					echo '<button name="action" value="rollback-reject" class="button button-secondary">'.__( 'Rollback Rejection', 'woocommerce-simple-registration' ).'</button>';
+				}else{
+					echo '<button name="action" value="rollback" class="button button-secondary">'.__( 'Withdraw Approval', 'woocommerce-simple-registration' ).'</button>';
+				}
 				echo '</form>';
-			}
+			
 			echo '</td>';
 			echo '</tr>';
 			$r++;

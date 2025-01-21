@@ -47,9 +47,10 @@ If you like this plugin, consider exploring our other themes and plugins:
 
 == Changelog ==
 
-= 1.5.8: Jan 20, 2025 =
+= 1.5.8: Jan 21, 2025 =
 
-* Update: Simple Registration for WooCommerce plugin Vulnerability.
+* Update: Simple Registration for WooCommerce plugin Vulnerability .
+* Update: Add Settings to approve or reject user role.
 
 = 1.5.7: April 23, 2024 =
 
