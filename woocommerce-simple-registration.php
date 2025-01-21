@@ -3,7 +3,7 @@
  * Plugin Name: Simple Registration for WooCommerce
  * Plugin URI: https://astoundify.com/products/woocommerce-simple-registration/
  * Description: A simple plugin to add a [woocommerce_simple_registration] shortcode to display the registration form on a separate page.
- * Version: 1.5.7
+ * Version: 1.5.8
  * Author: Astoundify
  * Author URI: https://astoundify.com/
  * Text Domain: woocommerce-simple-registration
@@ -13,15 +13,16 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 function sd_style_script_register() {
-
-	wp_register_style( 'select2-min-css', plugins_url( '/assets/select2/css/select2.min.css' , __FILE__ ) );
-	wp_enqueue_style( 'select2-min-css' );
-	wp_register_script( 'select2-full-min-js', plugins_url( '/assets/select2/js/select2.full.min.js' , __FILE__ ) );
-	wp_enqueue_script( 'select2-full-min-js' );
-	wp_register_script( 'custom-js', plugins_url( '/assets/js/custom.js' , __FILE__ ) );
-	wp_enqueue_script( 'custom-js' );
-
-
+	if(isset($_REQUEST['page']) && ($_REQUEST['page'] == 'role-requests' || $_REQUEST['page'] =='simple_registration')){
+		wp_enqueue_style( 'select2-min-css', plugins_url( '/assets/select2/css/select2.min.css' , __FILE__ ) );
+		wp_enqueue_script( 'select2-full-min-js', plugins_url( '/assets/select2/js/select2.full.min.js' , __FILE__ ) );
+		wp_enqueue_style( 'bootstrap-min-css', plugins_url( '/assets/css/bootstrap.min.css' , __FILE__ ) );
+		wp_enqueue_style( 'dataTables-bootstrap5-css', plugins_url( '/assets/css/dataTables.bootstrap5.css' , __FILE__ ) );	
+		wp_enqueue_script( 'bootstrap-bundle-js', plugins_url( '/assets/js/bootstrap.bundle.min.js' , __FILE__ ) );
+		wp_enqueue_script( 'dataTables-js', plugins_url( '/assets/js/dataTables.js' , __FILE__ ) );
+		wp_enqueue_script( 'dataTables-bootstrap5-js', plugins_url( '/assets/js/dataTables.bootstrap5.js' , __FILE__ ) );
+		wp_enqueue_script( 'custom-js', plugins_url( '/assets/js/custom.js' , __FILE__ ) );
+	}
 }
 add_action( 'admin_print_styles', 'sd_style_script_register', 99 );
 
@@ -233,9 +234,9 @@ class WooCommerce_Simple_Registration {
 		
 		if(!empty($selected_page)){
 		?>	
-			<label for="reg_sr_lastname"><?php _e( 'Account', 'woocommerce-simple-registration' ); ?></label>
+			<label for="reg_sr_lastname"><?php _e( 'Account', 'woocommerce-simple-registration' ); ?><span style="font-size: 12px;font-weight:400;text-transform:none;"> (<?php _e( 'The selected role will initially be pending approval.', 'woocommerce-simple-registration' ); ?> )<span></label>
 			<?php
-				echo '<select name="role" class="input" style="margin-bottom: 40px;">';
+				echo '<select name="role_request" class="input" style="margin-bottom: 40px;">';
 					echo '<option value="select">Select</option>';
 					
 					foreach ( $wp_roles->roles as $key => $value ) {
@@ -262,10 +263,11 @@ class WooCommerce_Simple_Registration {
 				}
 			}
 		}	
-		if(isset($_POST['role']) && in_array(trim($_POST['role']), $roleKey) && strtolower($_POST['role']) != 'administrator' ){			
-			$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => $_POST['role'] ) );		
-		}else{
-			$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => 'subscriber' ) );
+		
+		$user_id = wp_update_user( array( 'ID' => $user_id,'role' => 'subscriber' ) );
+
+		if(isset($_POST['role_request']) && in_array(trim($_POST['role_request']), $roleKey) && strtolower($_POST['role_request']) != 'administrator' ){			
+			save_role_request($user_id, esc_attr($_POST['role_request']));
 		}
 	}
 
