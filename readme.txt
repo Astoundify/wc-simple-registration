@@ -3,7 +3,7 @@ Contributors: Astoundify
 Donate link: https://www.paypal.me/astoundify
 Tags: woocommerce, woocommerce registration, woocommerce register, woocommerce registration form, woocommerce form
 Requires at least: 4.7.0
-Tested up to: 6.5.2
+Tested up to: 6.7
 Stable tag: 1.5.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html

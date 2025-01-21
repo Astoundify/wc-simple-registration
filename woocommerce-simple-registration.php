@@ -236,7 +236,7 @@ class WooCommerce_Simple_Registration {
 		?>	
 			<label for="reg_sr_lastname"><?php _e( 'Account', 'woocommerce-simple-registration' ); ?><span style="font-size: 12px;font-weight:400;text-transform:none;"> (<?php _e( 'The selected role will initially be pending approval.', 'woocommerce-simple-registration' ); ?> )<span></label>
 			<?php
-				echo '<select name="role" class="input" style="margin-bottom: 40px;">';
+				echo '<select name="role_request" class="input" style="margin-bottom: 40px;">';
 					echo '<option value="select">Select</option>';
 					
 					foreach ( $wp_roles->roles as $key => $value ) {
@@ -263,16 +263,11 @@ class WooCommerce_Simple_Registration {
 				}
 			}
 		}	
-		/* if(isset($_POST['role']) && in_array(trim($_POST['role']), $roleKey) && strtolower($_POST['role']) != 'administrator' ){			
-			$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => $_POST['role'] ) );		
-		}else{
-			$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => 'subscriber' ) );
-		} */
 		
 		$user_id = wp_update_user( array( 'ID' => $user_id,'role' => 'subscriber' ) );
 
-		if(isset($_POST['role']) && in_array(trim($_POST['role']), $roleKey) && strtolower($_POST['role']) != 'administrator' ){					
-			save_role_request($user_id, esc_attr($_POST['role']));
+		if(isset($_POST['role_request']) && in_array(trim($_POST['role_request']), $roleKey) && strtolower($_POST['role_request']) != 'administrator' ){			
+			save_role_request($user_id, esc_attr($_POST['role_request']));
 		}
 	}
 
