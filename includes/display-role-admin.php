@@ -130,8 +130,14 @@ function display_role_requests_page() {
 
     // Handle admin actions
     if (isset($_POST['action']) && isset($_POST['request_index'])) {
-        $requests = get_option('role_requests', []);
         $index = intval($_POST['request_index']);
+
+        // Verify nonce for CSRF protection
+        if (!isset($_POST['role_request_nonce']) || !wp_verify_nonce($_POST['role_request_nonce'], 'role_request_action_' . $index)) {
+            wp_die(__('Security check failed. Please try again.', 'woocommerce-simple-registration'));
+        }
+
+        $requests = get_option('role_requests', []);
 		$userID  = $requests[$index]['id_user'];
         if ($_POST['action'] === 'approve') {
             $requests[$index]['status'] = 1;
@@ -203,6 +209,7 @@ function display_role_requests_page() {
 			
 				echo '<form method="POST" style="display:inline-block;">';
 				echo '<input type="hidden" name="request_index" value="' . esc_attr($index) . '">';
+				wp_nonce_field('role_request_action_' . $index, 'role_request_nonce');
 				if ($request['status'] === -1 || $request['status'] === -2) {
 				echo '<button name="action" value="approve" class="button button-primary">'.__( 'Approve', 'woocommerce-simple-registration' ).'</button> ';
 				echo '<button name="action" value="reject" class="button button-secondary">'.__( 'Reject', 'woocommerce-simple-registration' ).'</button>';
