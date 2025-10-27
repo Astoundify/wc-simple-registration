@@ -102,7 +102,7 @@ class WooCommerce_Simple_Registration {
 		 * @link http://www.woothemes.com/products/woocommerce-social-login/
 		 * @since 1.3.0
 		 */
-		if( function_exists( 'init_woocommerce_social_login' ) ){
+		if( is_plugin_active( 'woocommerce-social-login/woocommerce-social-login.php' ) ) {
 			require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'includes/wc-social-login.php' );
 		}
 
